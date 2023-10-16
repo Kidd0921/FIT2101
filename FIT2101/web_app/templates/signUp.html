@@ -1,0 +1,30 @@
+<!-- If the user hasn't not login successfully, the navigation bar displayed to the users does not has an account icon-->
+{% if not loggedIn %}
+{% extends 'preNavBar.html'%}
+<!-- Otherwise, the navigation bar displayed to the users has an account icon and a logout option for the users to interact with.-->
+{% else %}
+{% extends 'postNavBar.html' %}
+{% endif %}
+{% block title %}Sign up{% endblock %}
+{% block content %}
+    <div class = "container">
+        <h1>Create an account</h1>
+        <br/>
+        <form action = "/signUp" method="POST">
+            <input type = "text" placeholder="Email" name ="email">
+            <input type = "text" placeholder="Phone-number" name ="number"?>
+            <input type = "text" placeholder="Username" name ="username"?>
+            <input type = "text" placeholder="Password" name ="pass"?>
+            <input type = "text" placeholder="Confirm Password" name ="pass_confirm"?>
+            <input type = "text" placeholder="Profile pic (optional)" name ="profile"?>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="check" value="superuser"> Superuser
+                </label>
+            </div>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type = "submit" value = "Create Account">
+                Sign up
+            </button>
+        </form>
+    </div>
+{% endblock %}

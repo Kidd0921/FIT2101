@@ -1,0 +1,7 @@
+<!-- If the user hasn't not login successfully, the navigation bar displayed to the users does not has an account icon-->
+{% if not loggedIn %}
+{% include 'preNavBar.html' %}
+<!-- Otherwise, the navigation bar displayed to the users has an account icon and a logout option for the users to interact with.-->
+{% else %}
+{% include 'postNavBar.html' %}
+{% endif %}

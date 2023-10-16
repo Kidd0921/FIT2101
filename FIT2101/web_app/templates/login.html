@@ -1,0 +1,23 @@
+<!-- If the user hasn't not login successfully, the navigation bar displayed to the users does not has an account icon-->
+{% if not loggedIn %}
+{% extends 'preNavBar.html'%}
+<!-- Otherwise, the navigation bar displayed to the users has an account icon and a logout option for the users to interact with.-->
+{% else %}
+{% extends 'postNavBar.html' %}
+{% endif %}
+
+{% block title %}Log in{% endblock %}
+{% block content %}
+    <div class = "container">
+        <h1>Login into your account.</h1>
+        <br/>
+        <form action = "/login" method="POST">
+            <input type = "text" placeholder="Email" name ="email">
+            <input type = "text" placeholder="Password" name ="pass"?>
+            <inputclass = "btn btn-secondary">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type = "submit" value = "Login">
+                Login
+            </button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,364 @@
+{% extends "postNavBar.html" %}
+{% block title%}Home{% endblock%}
+{% block content %}
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
+        <h3>Hello there, {{user}}</h3>
+    </div>
+</div>
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
+        <style>
+            table,
+            th,
+            td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                text-align: center;
+                padding: 5px
+            }
+
+            table th#ROW1 {
+                background-color: tomato;
+                color: black;
+            }
+
+            table th#ROW2 {
+                background-color: mediumseagreen;
+                color: black;
+            }
+
+            table th#ROW3 {
+                background-color: cornflowerblue;
+                color: black;
+            }
+
+            .test {
+                width: 200px;
+                background-color: lightblue;
+                border: 2px solid black;
+                padding: 10px;
+                font-size: 20px;
+            }
+        </style>
+        <br>
+        <br>
+        <br>
+        <div style="text-align: center;">
+            <span class="test"
+                style="background-color:steelblue;text-align: center;font-size: 40px;font-weight: bolder">DAILY
+                UPDATES</span>
+            <br>
+            <br>
+            <br>
+            <p style="font-family:sans-serif;font-size:18px;font-style:italic;text-align: center;">
+                (as of {{ daily_label[-1] }})
+            </p>
+            <br>
+            <table style="margin-left:auto; margin-right:auto;">
+                <tr>
+                    <th id="ROW1">New Cases</th>
+                    <th id="ROW2">New Recovered</th>
+                    <th id="ROW3">Total Vaccinated</th>
+                </tr>
+                <tr>
+                    <td>{{ "{:,}".format(daily_case[-1]) }}</td>
+                    <td>{{ "{:,}".format(daily_recovered[-1]) }}</td>
+                    <td>{{ total_vaccine_local }}</td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+</div>
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--6-col">
+        <canvas id="myLine" width="750" height="400"></canvas>
+        <script>
+            var ctx = document.getElementById('myLine').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: {{ daily_label | safe}},
+            datasets: [{
+                label: '# of daily new cases',
+                data: {{ daily_case | safe}},
+                fill: true,
+                borderColor: 'rgb(192, 75, 75)',
+                tension: 0.1
+                }]
+            },
+            options: {
+                responsive: false,
+                    plugins: {
+                    title: {
+                        display: true,
+                            text: 'Number of daily cases in Malaysia'
+                    }
+                },
+                layout: {
+                    padding: {
+                        right: 100
+                    }
+                }
+            }
+        });
+        </script>
+    </div>
+    <div class="mdl-cell mdl-cell--6-col">
+        <canvas id="myLine2" width="750" height="400"></canvas>
+        <script>
+            var ctx = document.getElementById('myLine2').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: {{ daily_label | safe}},
+            datasets: [{
+                label: '# of daily recovered cases',
+                data: {{ daily_recovered | safe}},
+                fill: true,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+                }]
+            },
+            options: {
+                responsive: false,
+                    plugins: {
+                    title: {
+                        display: true,
+                            text: 'Number of daily recovered cases in Malaysia'
+                    }
+                },
+                layout: {
+                    padding: {
+                        right: 100
+                    }
+                }
+            }
+        });
+        </script>
+    </div>
+</div>
+
+
+
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--4-col">
+        <canvas id="myPie" width="450" height="300"></canvas>
+        <script>
+            var ctx = document.getElementById('myPie').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: {{ vaccine_label | safe}},
+            datasets: [{
+                label: '# of vaccinated people',
+                data: {{ vaccine_data | safe}},
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+            ],
+                borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+            ],
+                hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: false,
+                    plugins: {
+                    title: {
+                        display: true,
+                            text: 'Number of doses of vaccines'
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 100
+                    }
+                }
+            }
+        });
+        </script>
+    </div>
+
+    <div class="mdl-cell mdl-cell--4-col">
+        <canvas id="myChart" width="450" height="300" style="padding-left: 15%; margin-left: 5%;"></canvas>
+        <script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ label | safe}},
+            datasets: [{
+                label: '# of covid cases',
+                data: {{ data | safe}},
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+            ],
+                borderColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+            ],
+                borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                    scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                            text: 'Number of global cases'
+                    }
+                },
+                layout: {
+                    padding: {
+                        right: 100
+                    }
+                }
+            }
+        });
+        </script>
+    </div>
+
+    <div class="mdl-cell mdl-cell--4-col">
+        <canvas id="myChart2" width="450" height="300"></canvas>
+        <script>
+            var ctx = document.getElementById('myChart2').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ global_vaccine_label | safe}},
+            datasets: [{
+                label: '# countries used',
+                data: {{ global_vaccine_amount | safe}},
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(255, 199, 232, 0.2)',
+                'rgba(200, 162, 235, 0.2)',
+                'rgba(100, 206, 86, 0.2)',
+                'rgba(5, 192, 192, 0.2)',
+                'rgba(10, 99, 132, 0.2)',
+                'rgba(20, 162, 235, 0.2)',
+                'rgba(70, 206, 86, 0.2)',
+                'rgba(30, 192, 192, 0.2)',
+                'rgba(50, 99, 132, 0.2)',
+                'rgba(40, 162, 235, 0.2)',
+                'rgba(177, 206, 86, 0.2)',
+                'rgba(188, 192, 192, 0.2)',
+                'rgba(200, 99, 132, 0.2)',
+                'rgba(133, 162, 235, 0.2)'
+            ],
+                borderColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(255, 199, 232, 0.2)',
+                'rgba(200, 162, 235, 0.2)',
+                'rgba(100, 206, 86, 0.2)',
+                'rgba(5, 192, 192, 0.2)',
+                'rgba(10, 99, 132, 0.2)',
+                'rgba(20, 162, 235, 0.2)',
+                'rgba(70, 206, 86, 0.2)',
+                'rgba(30, 192, 192, 0.2)',
+                'rgba(50, 99, 132, 0.2)',
+                'rgba(40, 162, 235, 0.2)',
+                'rgba(177, 206, 86, 0.2)',
+                'rgba(188, 192, 192, 0.2)',
+                'rgba(200, 99, 132, 0.2)',
+                'rgba(133, 162, 235, 0.2)'
+            ],
+                borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                    scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                            text: 'Number of each vaccine types dosed at global'
+                    }
+                },
+                layout: {
+                    padding: {
+                        right: 100
+                    }
+                }
+            }
+        });
+        </script>
+    </div>
+</div>
+
+
+<!-- <canvas id="myPolar" width="600" height="400"></canvas>
+    <script>
+        var ctx = document.getElementById('myPolar').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+                labels: {{vaccine_label | safe}},
+                datasets: [{
+                    label: '# of vaccinated people',
+                    data: {{ vaccine_data | safe}},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive : false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Number of doses of vaccines'
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 100
+                    }
+                }
+            }
+        });
+    </script> -->
+{% endblock %}

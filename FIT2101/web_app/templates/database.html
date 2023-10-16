@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+{% block title %}Database{% endblock %}
+{% block content %}
+    <div class = "container">
+        <h1>Add Data into Covid 19 Database</h1>
+        <br/>
+        <form action = "/database" method="POST">
+            <input type = "text" placeholder="New Cases" name ="newCases">
+            <input type = "text" placeholder="Import Cases" name ="importCases">
+            <input type = "text" placeholder="Recovered Cases" name ="recoveredCases">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type = "submit" value = "Add Data">
+                Button
+            </button>
+        </form>
+    </div>
+{% endblock %}
